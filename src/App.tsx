@@ -8,6 +8,9 @@ function App() {
     <div className="App">
       <Container maxWidth="sm">
         <h1>City search engine</h1>
+        <h2>City 1:</h2>
+        <CityAutocomplete></CityAutocomplete>
+        <h2>City 2:</h2>
         <CityAutocomplete></CityAutocomplete>
       </Container>
     </div>
