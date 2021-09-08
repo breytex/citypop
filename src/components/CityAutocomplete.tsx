@@ -12,24 +12,34 @@ export default function CityAutocomplete() {
     const [value, setValue] = React.useState(null);
     const [inputValue, setInputValue] = React.useState('');
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [population, setPopulation] = React.useState('');
     
-    const eventHandler = async (event: any) => {
-        // the event uses `prop` and `value`
+    const eventHandlerCitySearch = async (event: any) => {
         console.log("onChange eventHandler TextField has been fired: " + event.target.value);
         const api = new CityApi();
         const response = await api.getCities(event.target.value);
         const cities = await response.data._embedded["city:search-results"];
         setOptions(cities.map((city: any) => {
-            const cityURL = city["_links"]["city:item"];
+            const cityURL = city["_links"]["city:item"]["href"];
             const cityName: string = city["matching_full_name"];
             return {
                 url: cityURL,
                 name: cityName}
             }));
     };
+
+    const loadCityData = async (cityUrl: string) => {
+        const api = new CityApi();
+        console.log(cityUrl);
+        const response = await api.getCity(cityUrl);
+        const city = await response.data;
+        const myPopulation = city["population"];
+        console.log(myPopulation);
+        setPopulation(myPopulation);
+    };
     
     const debouncedEventHandler = React.useMemo(
-    () => debounce(eventHandler, 300)
+    () => debounce(eventHandlerCitySearch, 300)
     , []);
     
   React.useEffect(() => {
@@ -51,13 +61,18 @@ return (
       }}
       value={value}
       onChange={(event, newValue) => {
-        console.log("onChange has been fired");
+        console.log("onChange Autocomplete has been fired");
+        console.log(newValue);
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        if (newValue !== null) {
+            loadCityData(newValue.url);
+        }
       }}
       onInputChange={(event, newInputValue) => {
         console.log("onInputChange Autocomplete has been fired");
         setInputValue(newInputValue);
+        console.log(newInputValue);
       }}
       getOptionSelected={(option: any, value: any) => option.name === value.name}
       getOptionLabel={(option) => option.name}
@@ -84,6 +99,7 @@ return (
         />
       )}
     />
+    <h2>Population:{population}</h2>
     </div>
   );
 }

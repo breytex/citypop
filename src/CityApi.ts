@@ -10,4 +10,8 @@ export default class CityApi {
             return http.get("/cities");
           }  
         }
+
+        getCity(url: string) {
+            return http.get(url);
+        }
 }
