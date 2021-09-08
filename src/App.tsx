@@ -22,9 +22,10 @@ function App() {
         <h2>City 2:</h2>
         <CityAutocomplete index={2} onSelectedCity={savePopulation}></CityAutocomplete>
       </Container>
-      <Container maxWidth="sm">
-      <h1>This is a difference in population of {population[1] - population[2]}</h1>
-      </Container>
+      { (population[1] !== undefined) && (population[2] !== undefined)
+        ? <Container maxWidth="sm"><h1>This is a difference in population of {population[1] - population[2]}</h1></Container>
+        : <Container maxWidth="sm">Please select 2 cities.</Container>
+      }
     </div>
   );
 }

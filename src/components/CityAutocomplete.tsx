@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState } from 'react'
 import CityApi from '../CityApi'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -11,13 +11,11 @@ type CityAutocompleteProps = {
 }
 
 export default function CityAutocomplete({index, onSelectedCity}: CityAutocompleteProps) {
-    const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState<any>([]);
+    const [open, setOpen] = useState(false);
+    const [options, setOptions] = useState<any>([]);
     const loading = open && options.length === 0;
-    const [value, setValue] = React.useState(null);
-    const [inputValue, setInputValue] = React.useState('');
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [population, setPopulation] = React.useState('');
+    const [value, setValue] = useState(null);
+    const [population, setPopulation] = useState('');
     
     const eventHandlerCitySearch = async (event: any) => {
         console.log("onChange eventHandler TextField has been fired: " + event.target.value);
@@ -77,8 +75,6 @@ return (
       }}
       onInputChange={(event, newInputValue) => {
         console.log("onInputChange Autocomplete has been fired");
-        setInputValue(newInputValue);
-        console.log(newInputValue);
       }}
       getOptionSelected={(option: any, value: any) => option.name === value.name}
       getOptionLabel={(option) => option.name}
@@ -90,7 +86,6 @@ return (
           label="Search for a city"
           variant="outlined"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchTerm(e.target.value);
             debouncedEventHandler(e);
           }}
               InputProps={{
