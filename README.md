@@ -1,4 +1,5 @@
 This is a prototype for a city population compare tool.
+Please have a look.
 
 # Getting Started with Create React App
 
