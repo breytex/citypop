@@ -6,11 +6,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import debounce from 'lodash/debounce';
 
 type CityAutocompleteProps = {
-    index: number;
-    onSelectedCity: (index: number, populationChanged: number) => void
+    onSelectedCity: (populationChanged: number) => void
 }
 
-export default function CityAutocomplete({index, onSelectedCity}: CityAutocompleteProps) {
+export default function CityAutocomplete({onSelectedCity}: CityAutocompleteProps) {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<any>([]);
     const loading = open && options.length === 0;
@@ -39,7 +38,7 @@ export default function CityAutocomplete({index, onSelectedCity}: CityAutocomple
         const myPopulation = city["population"];
         console.log(myPopulation);
         setPopulation(myPopulation);
-        onSelectedCity(index, myPopulation);
+        onSelectedCity(myPopulation);
     };
     
     const debouncedEventHandler = React.useMemo(
